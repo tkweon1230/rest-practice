@@ -8,7 +8,7 @@ GET http://localhost:5000/users/60bd082c129db72fec32c31f
 
 ###
 // Get Bob's name 
-GET http://localhost:5000/users/60bd0bab90afa920c0beb8af
+GET http://localhost:5000/users/60bd1daf6184670b741154ca
 
 ###
 // Create New User
@@ -16,8 +16,20 @@ POST http://localhost:5000/users
 Content-type: application/json
 
 {
-    "name": "Bob",
-    "email": "bob@gmail.com"
+    "name": "Dan",
+    "email": "dan@gmail.com"
 }
 
 ###
+
+DELETE http://localhost:5000/users/60bd23184375e01ab8c088f1
+
+###
+PATCH http://localhost:5000/users/60bd082c129db72fec32c31f
+Content-Type: application/json
+
+{
+    "name": "New Billy",
+    "email": "newBilly@gmail.com"
+}
+

@@ -6,11 +6,10 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const users = await User.find();
-        res.json(users);
+        res.send(users);
         
     } catch (err) {
-
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({msg: error.message});
         
     }
 });
@@ -29,6 +28,7 @@ router.post('/', async (req, res) => {
     });
 
     try {
+        
         const newUser = await user.save();
         res.json(newUser);
         res.status(201).json(newUser);
@@ -41,12 +41,33 @@ router.post('/', async (req, res) => {
 });
 
 // Updating a user
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', getUser, async (req, res) => {
+    if (req.body.name != null) {
+        res.user.name = req.body.name;
+    }
+    if (req.body.email != null) {
+        res.user.email = req.body.email;
+    }
+    try {
+        const updatedUser = await res.user.save();
+        res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json({ msg: err.message});
+    }
 
 });
 
 // Deleting a user
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', getUser, async (req, res) => {
+    try {
+        await res.user.remove();
+        res.json({ msg: 'Removed User'});
+        
+    } catch (err) {
+        res.status(500).json({ msg: err.message});
+    }
+    
+
 
 });
 
@@ -58,10 +79,9 @@ async function getUser(req, res, next) {
         }
         res.user = user;
         next();
+        
     } catch (err) {
         return res.status(500).json({ msg: err.message });
     }
-
-
 };
 module.exports = router;
